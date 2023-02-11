@@ -1,9 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useAddProductMutation } from "../../service/api/productsApi";
 
 const AddProduct = () => {
   const { register, handleSubmit } = useForm();
+  const [createProduct,{isLoading,isError,isSuccess,data}] = useAddProductMutation()
   
+  if(isLoading){
+    return <p>loading....</p>
+  }
+  if(isError){
+    return console.log(isError)
+  }
+
+  if(isSuccess){
+    console.log(data)
+  }
+
 
   const submit = (data) => {
     const product = {
@@ -20,7 +33,8 @@ const AddProduct = () => {
       spec: [],
     };
 
-    
+    createProduct(product)
+
   };
 
   return (

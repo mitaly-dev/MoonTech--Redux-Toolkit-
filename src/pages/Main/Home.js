@@ -2,19 +2,29 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard";
 import { useDispatch ,useSelector} from "react-redux";
 import { brandHandle, stockToggle } from "../../service/features/filterSlice";
+import { useGetProductsQuery } from "../../service/api/productsApi";
 
 const Home = () => {
-  const [products,setProducts] = useState([])
+  // const [products,setProducts] = useState([])
   const dispatch = useDispatch()
   const filters = useSelector((state)=>state.filter)
   const {stock,brands} = filters
   console.log(brands)
+  const {data:products,isLoading,isSuccess,isError} = useGetProductsQuery()
+ 
+  if(isLoading){
+    return <p>loading....</p>
+  }
+  
+  if(isError){
+    return console.log(isError)
+  }
 
-  useEffect(()=>{
-    fetch('http://localhost:5000/products')
-    .then(res=>res.json())
-    .then(data=>setProducts(data))
-  },[])
+  // useEffect(()=>{
+  //   fetch('http://localhost:5000/products')
+  //   .then(res=>res.json())
+  //   .then(data=>setProducts(data))
+  // },[])
 
 
   let content 

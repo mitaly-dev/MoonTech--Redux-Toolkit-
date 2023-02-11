@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useGetProductsQuery } from "../../service/api/productsApi";
 
 const ProductList = () => {
-  const products = useSelector(state=>state.product.products)
+  // const products = useSelector(state=>state.product.products)
 
+  const {data:products,isError,isSuccess,isLoading} = useGetProductsQuery()
+
+  if(isLoading){
+    return <p>loading....</p>
+  }
+  
+  if(isError){
+    return console.log(isError)
+  }
    
   return (
     <div class='flex flex-col justify-center items-center h-full w-full '>
